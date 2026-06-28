@@ -1,16 +1,16 @@
 import json
 
-from ai.gemini_client import GeminiClient
+from ai.base_ai_engine import BaseAIEngine
 
 
-class BullEngine:
+class BullEngine(BaseAIEngine):
 
-    def __init__(self):
-        self.gemini = GeminiClient(
-            "gemini-2.5-flash",
-        )
-
-    def generate(self, context, analyst_report, bear_report):
+    def build_prompt(
+        self,
+        context,
+        analyst_report,
+        bear_report,
+    ):
 
         context_text = json.dumps(
             context,
@@ -19,7 +19,7 @@ class BullEngine:
             default=str,
         )
 
-        prompt = f"""
+        return f"""
 You are the Chief Investment Strategist of a long-only global asset manager.
 
 Your job is to challenge the bear case.
@@ -48,5 +48,3 @@ Bear Report:
 
 {bear_report}
 """
-
-        return self.gemini.generate(prompt)

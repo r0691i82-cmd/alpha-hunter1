@@ -1,16 +1,15 @@
 import json
 
-from ai.gemini_client import GeminiClient
+from ai.base_ai_engine import BaseAIEngine
 
 
-class BearEngine:
+class BearEngine(BaseAIEngine):
 
-    def __init__(self):
-        self.gemini = GeminiClient(
-            "gemini-2.5-flash",
-        )
-
-    def generate(self, context, analyst_report):
+    def build_prompt(
+        self,
+        context,
+        analyst_report,
+    ):
 
         context_text = json.dumps(
             context,
@@ -19,7 +18,7 @@ class BearEngine:
             default=str,
         )
 
-        prompt = f"""
+        return f"""
 You are the Chief Risk Officer of a global macro hedge fund.
 
 Your job is to attack the analyst's thesis.
@@ -46,5 +45,3 @@ Analyst Report:
 
 {analyst_report}
 """
-
-        return self.gemini.generate(prompt)

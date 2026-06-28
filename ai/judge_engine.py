@@ -1,16 +1,13 @@
 import json
 
-from ai.gemini_client import GeminiClient
+from ai.base_ai_engine import BaseAIEngine
 
 
-class JudgeEngine:
+class JudgeEngine(BaseAIEngine):
 
-    def __init__(self):
-        self.gemini = GeminiClient(
-            "gemini-2.5-pro",
-        )
+    MODEL = "gemini-2.5-pro"
 
-    def generate(
+    def build_prompt(
         self,
         context,
         analyst_report,
@@ -26,7 +23,7 @@ class JudgeEngine:
             default=str,
         )
 
-        prompt = f"""
+        return f"""
 You are the final investment committee judge.
 
 Use only the provided data and internal reports.
@@ -67,5 +64,3 @@ Risk Manager Report:
 
 {risk_report}
 """
-
-        return self.gemini.generate(prompt)

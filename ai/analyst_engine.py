@@ -1,16 +1,11 @@
 import json
 
-from ai.gemini_client import GeminiClient
+from ai.base_ai_engine import BaseAIEngine
 
 
-class AnalystEngine:
+class AnalystEngine(BaseAIEngine):
 
-    def __init__(self):
-        self.gemini = GeminiClient(
-            "gemini-2.5-flash",
-        )
-
-    def generate(self, context):
+    def build_prompt(self, context):
 
         context_text = json.dumps(
             context,
@@ -19,7 +14,7 @@ class AnalystEngine:
             default=str,
         )
 
-        prompt = f"""
+        return f"""
 You are the Chief Investment Officer of a global macro hedge fund.
 
 Use only the supplied structured data.
@@ -41,5 +36,3 @@ Structured Data:
 
 {context_text}
 """
-
-        return self.gemini.generate(prompt)
