@@ -1,9 +1,9 @@
 from pathlib import Path
 from datetime import datetime
-import shutil
 
 from ai.final_decision_engine import FinalDecisionEngine
 from notifications.telegram_sender import TelegramSender
+from reports.obsidian_export_v2 import export_report
 
 
 def main():
@@ -21,8 +21,7 @@ def main():
 
     report_file = reports_dir / f"alpha_report_{timestamp}.md"
 
-    report = f"""
-# Alpha Hunter Institutional Report
+    report = f"""# Alpha Hunter Institutional Report
 
 Generated : {datetime.now()}
 
@@ -70,27 +69,15 @@ Generated : {datetime.now()}
         report_file,
     )
 
-    vault = Path("research") / "obsidian_daily"
-
-    vault.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
-
-    destination = vault / report_file.name
-
-    shutil.copy(
-        report_file,
-        destination,
-    )
+    export_report(report_file)
 
     print()
     print("=" * 80)
     print("ALPHA HUNTER COMPLETE")
     print("=" * 80)
     print(f"Report    : {report_file}")
-    print(f"Obsidian  : {destination}")
     print("Telegram  : Complete")
+    print("Obsidian  : Export Complete")
     print("=" * 80)
 
 
