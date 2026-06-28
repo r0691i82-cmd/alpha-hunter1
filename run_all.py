@@ -1,91 +1,44 @@
 from pathlib import Path
-from datetime import datetime
+import subprocess
+import sys
 
-from collectors.macro_collector_v2 import MacroCollectorV2
-from collectors.etf_flow_collector import ETFFlowCollector
-from collectors.cot_collector import COTCollector
+ROOT = Path(__file__).parent
 
-from features.money_flow_engine import MoneyFlowEngine
-from features.market_regime_engine import MarketRegimeEngine
+PIPELINE = [
+    "reports.global_intelligence_report",
+    "reports.analyst_report",
+    "reports.bear_report",
+    "reports.bull_report",
+    "reports.risk_manager_report",
+    "reports.judge_report",
+    "reports.final_decision_report",
+    "reports.send_final_decision",
+    "reports.obsidian_export_v2",
+]
 
-from ai.ai_context_builder import AIContextBuilder
-from ai.report_generator import AIReportGenerator
+print("=" * 70)
+print("ALPHA HUNTER DAILY PIPELINE START")
+print("=" * 70)
 
-from notifications.telegram_sender import TelegramSender
+for module in PIPELINE:
 
+    print(f"\n>>> Running {module}")
 
-def main():
-
-    print("=" * 80)
-    print("ALPHA HUNTER DAILY PIPELINE START")
-    print("=" * 80)
-
-    print("[1/7] Macro Collector")
-    MacroCollectorV2().run()
-
-    print("[2/7] ETF Collector")
-    ETFFlowCollector().run()
-
-    print("[3/7] COT Collector")
-    COTCollector().run()
-
-    print("[4/7] Money Flow Engine")
-    money_flow = MoneyFlowEngine().run()
-
-    print("[5/7] Market Regime Engine")
-    regime = MarketRegimeEngine().run()
-
-    print("[6/7] AI Context Builder")
-    context = AIContextBuilder().build()
-
-    print("[7/7] AI Report Generator")
-    report = AIReportGenerator().generate_offline_report()
-
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
-
-    reports_dir = Path("reports")
-    reports_dir.mkdir(exist_ok=True)
-
-    report_file = reports_dir / f"daily_pipeline_report_{timestamp}.md"
-
-    report_file.write_text(
-        report,
-        encoding="utf-8",
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            module,
+        ],
+        cwd=ROOT,
     )
 
-    print()
-    print("=" * 80)
-    print("SUMMARY")
-    print("=" * 80)
+    if result.returncode != 0:
 
-    print("Money Flow")
-    print(money_flow)
+        print(f"\nFAILED : {module}")
 
-    print()
+        sys.exit(result.returncode)
 
-    print("Market Regime")
-    print(regime)
-
-    print()
-
-    print("AI Context")
-    print(context.keys())
-
-    print()
-
-    print(f"Report Saved : {report_file}")
-
-    try:
-        TelegramSender().send(report[:3900])
-        print("Telegram Sent")
-    except Exception as e:
-        print(f"Telegram Error : {e}")
-
-    print()
-    print("=" * 80)
-    print("ALPHA HUNTER DAILY PIPELINE END")
-    print("=" * 80)
-
-
-if __name__ == "__main__":
-    main()
+print("\n" + "=" * 70)
+print("ALPHA HUNTER DAILY PIPELINE END")
+print("=" * 70)
