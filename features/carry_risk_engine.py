@@ -9,6 +9,7 @@ def load_macro(asset):
         return None
 
     df = pd.read_csv(file)
+    df.columns = [str(c).strip() for c in df.columns]
 
     if len(df) < 22:
         return None
@@ -16,11 +17,44 @@ def load_macro(asset):
     return df
 
 
+def clean_close(df):
+    if df is None:
+        return None
+
+    if "Close" not in df.columns:
+        return None
+
+    df = df.copy()
+    df["Close"] = pd.to_numeric(df["Close"], errors="coerce")
+    df = df.dropna(subset=["Close"])
+
+    if len(df) < 22:
+        return None
+
+    return df
+
+
+def calc_return(df, days):
+    if df is None:
+        return 0
+
+    if len(df) <= days:
+        return 0
+
+    latest = df["Close"].iloc[-1]
+    previous = df["Close"].iloc[-days - 1]
+
+    if previous == 0:
+        return 0
+
+    return (latest / previous - 1) * 100
+
+
 def build_carry_risk_score():
-    usdjpy = load_macro("USDJPY")
-    vix = load_macro("VIX")
-    dxy = load_macro("DXY")
-    tlt = load_macro("TLT")
+    usdjpy = clean_close(load_macro("USDJPY"))
+    vix = clean_close(load_macro("VIX"))
+    dxy = clean_close(load_macro("DXY"))
+    tlt = clean_close(load_macro("TLT"))
 
     if usdjpy is None or vix is None or dxy is None or tlt is None:
         return {
@@ -28,10 +62,10 @@ def build_carry_risk_score():
             "CARRY_RISK_STATE": "UNKNOWN",
         }
 
-    usdjpy_ret = (usdjpy["Close"].iloc[-1] / usdjpy["Close"].iloc[-21] - 1) * 100
-    vix_ret = (vix["Close"].iloc[-1] / vix["Close"].iloc[-6] - 1) * 100
-    dxy_ret = (dxy["Close"].iloc[-1] / dxy["Close"].iloc[-21] - 1) * 100
-    tlt_ret = (tlt["Close"].iloc[-1] / tlt["Close"].iloc[-21] - 1) * 100
+    usdjpy_ret = calc_return(usdjpy, 20)
+    vix_ret = calc_return(vix, 5)
+    dxy_ret = calc_return(dxy, 20)
+    tlt_ret = calc_return(tlt, 20)
 
     score = 50
 
