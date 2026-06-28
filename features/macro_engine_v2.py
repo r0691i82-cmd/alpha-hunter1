@@ -8,25 +8,53 @@ class MacroEngineV2(BaseEngine):
     def __init__(self):
         super().__init__("macro_engine_v2")
 
+    def _find_close_column(self, df: pd.DataFrame):
+        for col in df.columns:
+            if str(col).strip().lower() == "close":
+                return col
+        return None
+
+    def _clean_close_series(self, df: pd.DataFrame):
+        close_col = self._find_close_column(df)
+
+        if close_col is None:
+            return None
+
+        close = pd.to_numeric(df[close_col], errors="coerce")
+        close = close.dropna()
+
+        if len(close) < 22:
+            return None
+
+        return close
+
     def process(self, data=None):
         rows = []
 
         files = list(Path("database/macro").glob("*.csv"))
 
         for file in files:
-            df = pd.read_csv(file)
+            try:
+                df = pd.read_csv(file)
 
-            if len(df) < 22 or "Close" not in df.columns:
+                df.columns = [str(c).strip() for c in df.columns]
+
+                close = self._clean_close_series(df)
+
+                if close is None:
+                    self.logger.warning(f"Skipped {file.name}: invalid Close data")
+                    continue
+
+                rows.append({
+                    "asset": file.stem,
+                    "last": float(close.iloc[-1]),
+                    "ret_5d": float((close.iloc[-1] / close.iloc[-6] - 1) * 100),
+                    "ret_20d": float((close.iloc[-1] / close.iloc[-21] - 1) * 100),
+                })
+
+            except Exception as e:
+                self.logger.exception(f"Failed to process {file.name}: {e}")
                 continue
-
-            close = df["Close"]
-
-            rows.append({
-                "asset": file.stem,
-                "last": close.iloc[-1],
-                "ret_5d": (close.iloc[-1] / close.iloc[-6] - 1) * 100,
-                "ret_20d": (close.iloc[-1] / close.iloc[-21] - 1) * 100,
-            })
 
         result = pd.DataFrame(rows)
 
@@ -54,7 +82,7 @@ class MacroEngineV2(BaseEngine):
             "risk_on_score",
         ] = -result["ret_20d"] * 0.5
 
-        macro_score = result["risk_on_score"].mean()
+        macro_score = float(result["risk_on_score"].mean())
 
         if macro_score > 1:
             macro_state = "RISK_ON"
