@@ -1,22 +1,13 @@
-import os
 import json
-import google.generativeai as genai
+
+from ai.gemini_client import GeminiClient
 
 
 class JudgeEngine:
 
     def __init__(self):
-
-        api_key = os.getenv("GEMINI_API_KEY")
-
-        if not api_key:
-            self.model = None
-            return
-
-        genai.configure(api_key=api_key)
-
-        self.model = genai.GenerativeModel(
-            "gemini-2.5-pro"
+        self.gemini = GeminiClient(
+            "gemini-2.5-pro",
         )
 
     def generate(
@@ -27,9 +18,6 @@ class JudgeEngine:
         bull_report,
         risk_report,
     ):
-
-        if self.model is None:
-            return "GEMINI_API_KEY NOT FOUND"
 
         context_text = json.dumps(
             context,
@@ -80,6 +68,4 @@ Risk Manager Report:
 {risk_report}
 """
 
-        response = self.model.generate_content(prompt)
-
-        return response.text
+        return self.gemini.generate(prompt)
