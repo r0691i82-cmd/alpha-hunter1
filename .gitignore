@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual Environment
+.venv/
+venv/
+
+# VS Code
+.vscode/
+
+# Environment
+.env
+
+# Logs
+logs/
+
+# Generated reports
+reports/*.md
+
+# Obsidian exports
+research/obsidian_daily/
+
+# Generated market data
+database/*.csv
+
+# Windows
+Thumbs.db
+Desktop.ini
