@@ -1,0 +1,17 @@
+project:
+  name: Alpha Hunter
+  version: v2.0.0
+
+runtime:
+  timezone: Asia/Seoul
+  report_time: "09:00"
+
+paths:
+  database: database
+  reports: reports
+  logs: logs
+  cache: cache
+
+execution:
+  bars: 500
+  default_timeframe: M5

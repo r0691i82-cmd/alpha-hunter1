@@ -1,0 +1,15 @@
+watchlist:
+  - BTC
+  - GOLD
+  - NASDAQ
+  - USDJPY
+
+symbols:
+  BTC:
+    aliases: [BTCUSD, BTCUSDm, BTCUSD., BTCUSD#]
+  GOLD:
+    aliases: [XAUUSD, GOLD]
+  NASDAQ:
+    aliases: [USTEC, US100, NAS100, USTEC.cash, US100.cash]
+  USDJPY:
+    aliases: [USDJPY, USDJPYm]
