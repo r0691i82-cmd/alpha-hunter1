@@ -1,9 +1,11 @@
-import json
+﻿import json
 
 from ai.base_ai_engine import BaseAIEngine
 
 
 class AnalystEngine(BaseAIEngine):
+
+    PROMPT_FILE = "ai/prompts/analyst.txt"
 
     def build_prompt(self, context):
 
@@ -36,3 +38,4 @@ Structured Data:
 
 {context_text}
 """
+

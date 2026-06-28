@@ -1,9 +1,11 @@
-import json
+﻿import json
 
 from ai.base_ai_engine import BaseAIEngine
 
 
 class BullEngine(BaseAIEngine):
+
+    PROMPT_FILE = "ai/prompts/bull.txt"
 
     def build_prompt(
         self,
@@ -48,3 +50,4 @@ Bear Report:
 
 {bear_report}
 """
+

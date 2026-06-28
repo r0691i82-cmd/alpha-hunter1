@@ -1,9 +1,11 @@
-import json
+﻿import json
 
 from ai.base_ai_engine import BaseAIEngine
 
 
 class JudgeEngine(BaseAIEngine):
+
+    PROMPT_FILE = "ai/prompts/judge.txt"
 
     MODEL = "gemini-2.5-pro"
 
@@ -64,3 +66,4 @@ Risk Manager Report:
 
 {risk_report}
 """
+

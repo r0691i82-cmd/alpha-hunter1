@@ -1,0 +1,130 @@
+[1mdiff --git a/ai/analyst_engine.py b/ai/analyst_engine.py[m
+[1mindex e1e1465..b93408a 100644[m
+[1m--- a/ai/analyst_engine.py[m
+[1m+++ b/ai/analyst_engine.py[m
+[36m@@ -1,10 +1,12 @@[m
+[31m-import json[m
+[32m+[m[32m﻿import json[m
+ [m
+ from ai.base_ai_engine import BaseAIEngine[m
+ [m
+ [m
+ class AnalystEngine(BaseAIEngine):[m
+ [m
+[32m+[m[32m    PROMPT_FILE = "ai/prompts/analyst.txt"[m
+[32m+[m
+     def build_prompt(self, context):[m
+ [m
+         context_text = json.dumps([m
+[36m@@ -35,4 +37,5 @@[m [mReturn:[m
+ Structured Data:[m
+ [m
+ {context_text}[m
+[31m-"""[m
+\ No newline at end of file[m
+[32m+[m[32m"""[m
+[41m+[m
+[1mdiff --git a/ai/bear_engine.py b/ai/bear_engine.py[m
+[1mindex a093e70..6853a03 100644[m
+[1m--- a/ai/bear_engine.py[m
+[1m+++ b/ai/bear_engine.py[m
+[36m@@ -1,10 +1,12 @@[m
+[31m-import json[m
+[32m+[m[32m﻿import json[m
+ [m
+ from ai.base_ai_engine import BaseAIEngine[m
+ [m
+ [m
+ class BearEngine(BaseAIEngine):[m
+ [m
+[32m+[m[32m    PROMPT_FILE = "ai/prompts/bear.txt"[m
+[32m+[m
+     def build_prompt([m
+         self,[m
+         context,[m
+[36m@@ -44,4 +46,5 @@[m [mStructured Data:[m
+ Analyst Report:[m
+ [m
+ {analyst_report}[m
+[31m-"""[m
+\ No newline at end of file[m
+[32m+[m[32m"""[m
+[41m+[m
+[1mdiff --git a/ai/bull_engine.py b/ai/bull_engine.py[m
+[1mindex 6aa833e..20579ca 100644[m
+[1m--- a/ai/bull_engine.py[m
+[1m+++ b/ai/bull_engine.py[m
+[36m@@ -1,10 +1,12 @@[m
+[31m-import json[m
+[32m+[m[32m﻿import json[m
+ [m
+ from ai.base_ai_engine import BaseAIEngine[m
+ [m
+ [m
+ class BullEngine(BaseAIEngine):[m
+ [m
+[32m+[m[32m    PROMPT_FILE = "ai/prompts/bull.txt"[m
+[32m+[m
+     def build_prompt([m
+         self,[m
+         context,[m
+[36m@@ -47,4 +49,5 @@[m [mAnalyst Report:[m
+ Bear Report:[m
+ [m
+ {bear_report}[m
+[31m-"""[m
+\ No newline at end of file[m
+[32m+[m[32m"""[m
+[41m+[m
+[1mdiff --git a/ai/judge_engine.py b/ai/judge_engine.py[m
+[1mindex e31c946..9c5f61b 100644[m
+[1m--- a/ai/judge_engine.py[m
+[1m+++ b/ai/judge_engine.py[m
+[36m@@ -1,10 +1,12 @@[m
+[31m-import json[m
+[32m+[m[32m﻿import json[m
+ [m
+ from ai.base_ai_engine import BaseAIEngine[m
+ [m
+ [m
+ class JudgeEngine(BaseAIEngine):[m
+ [m
+[32m+[m[32m    PROMPT_FILE = "ai/prompts/judge.txt"[m
+[32m+[m
+     MODEL = "gemini-2.5-pro"[m
+ [m
+     def build_prompt([m
+[36m@@ -63,4 +65,5 @@[m [mBull Report:[m
+ Risk Manager Report:[m
+ [m
+ {risk_report}[m
+[31m-"""[m
+\ No newline at end of file[m
+[32m+[m[32m"""[m
+[41m+[m
+[1mdiff --git a/ai/risk_manager_engine.py b/ai/risk_manager_engine.py[m
+[1mindex ccd206d..42088e9 100644[m
+[1m--- a/ai/risk_manager_engine.py[m
+[1m+++ b/ai/risk_manager_engine.py[m
+[36m@@ -1,10 +1,12 @@[m
+[31m-import json[m
+[32m+[m[32m﻿import json[m
+ [m
+ from ai.base_ai_engine import BaseAIEngine[m
+ [m
+ [m
+ class RiskManagerEngine(BaseAIEngine):[m
+ [m
+[32m+[m[32m    PROMPT_FILE = "ai/prompts/risk.txt"[m
+[32m+[m
+     def build_prompt([m
+         self,[m
+         context,[m
+[36m@@ -55,4 +57,5 @@[m [mBear Report:[m
+ Bull Report:[m
+ [m
+ {bull_report}[m
+[31m-"""[m
+\ No newline at end of file[m
+[32m+[m[32m"""[m
+[41m+[m

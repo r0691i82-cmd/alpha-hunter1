@@ -1,9 +1,11 @@
-import json
+﻿import json
 
 from ai.base_ai_engine import BaseAIEngine
 
 
 class RiskManagerEngine(BaseAIEngine):
+
+    PROMPT_FILE = "ai/prompts/risk.txt"
 
     def build_prompt(
         self,
@@ -56,3 +58,4 @@ Bull Report:
 
 {bull_report}
 """
+
