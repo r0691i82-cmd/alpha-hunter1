@@ -17,6 +17,7 @@ class FinalDecisionEngine:
         self.judge = JudgeEngine()
 
     def run(self, context=None):
+
         if context is None:
             context = self.context_builder.build()
 
@@ -49,6 +50,7 @@ class FinalDecisionEngine:
         )
 
         return {
+            "context": context,
             "analyst": analyst_report,
             "bear": bear_report,
             "bull": bull_report,

@@ -26,6 +26,26 @@ class AIContextBuilder:
             "cot_positioning": self._df_to_records(cot),
             "macro_snapshot": self._df_to_records(macro),
             "latest_reports": self._load_latest_reports(),
+            "watchlist": [
+                "SPY",
+                "QQQ",
+                "IWM",
+                "GLD",
+                "SLV",
+                "USO",
+                "TLT",
+                "UUP",
+                "BTCUSD",
+                "ETHUSD",
+                "USDJPY",
+                "XAUUSD",
+                "USTEC",
+            ],
+            "decision_rules": {
+                "risk_on": "Money flow strong, carry risk low, ETF inflow broadening",
+                "risk_off": "Carry risk high, liquidity stress, defensive ETF leadership",
+                "neutral": "Mixed signal, wait for confirmation",
+            },
         }
 
     def _df_to_records(self, df):
@@ -45,12 +65,13 @@ class AIContextBuilder:
         if not reports_dir.exists():
             return []
 
-        reports = sorted(reports_dir.glob("alpha_report_*.md"))
+        reports = sorted(
+            reports_dir.glob("alpha_report_*.md")
+        )
 
         items = []
 
         for report in reports[-3:]:
-
             items.append({
                 "file": str(report),
                 "content": report.read_text(

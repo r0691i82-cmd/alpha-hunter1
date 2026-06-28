@@ -5,6 +5,6 @@ def test_prompt_builder_runs():
     prompt = InstitutionalPromptBuilder().build()
 
     assert prompt is not None
-    assert "Structured Data" in prompt
-    assert "Global Money Flow" in prompt
-    assert "Final Decision" in prompt
+    assert "Global Liquidity" in prompt
+    assert "ETF Flow" in prompt
+    assert "FINAL DECISION FORMAT" in prompt
