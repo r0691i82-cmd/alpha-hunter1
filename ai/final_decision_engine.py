@@ -7,36 +7,44 @@ from ai.judge_engine import JudgeEngine
 
 class FinalDecisionEngine:
 
+    def __init__(self):
+
+        self.analyst = AnalystEngine()
+        self.bear = BearEngine()
+        self.bull = BullEngine()
+        self.risk = RiskManagerEngine()
+        self.judge = JudgeEngine()
+
     def run(self):
 
-        analyst = AnalystEngine().generate()
+        analyst_report = self.analyst.generate()
 
-        bear = BearEngine().generate(
-            analyst,
+        bear_report = self.bear.generate(
+            analyst_report,
         )
 
-        bull = BullEngine().generate(
-            analyst,
-            bear,
+        bull_report = self.bull.generate(
+            analyst_report,
+            bear_report,
         )
 
-        risk = RiskManagerEngine().generate(
-            analyst,
-            bear,
-            bull,
+        risk_report = self.risk.generate(
+            analyst_report,
+            bear_report,
+            bull_report,
         )
 
-        judge = JudgeEngine().generate(
-            analyst,
-            bear,
-            bull,
-            risk,
+        judge_report = self.judge.generate(
+            analyst_report,
+            bear_report,
+            bull_report,
+            risk_report,
         )
 
         return {
-            "analyst": analyst,
-            "bear": bear,
-            "bull": bull,
-            "risk": risk,
-            "judge": judge,
+            "analyst": analyst_report,
+            "bear": bear_report,
+            "bull": bull_report,
+            "risk": risk_report,
+            "judge": judge_report,
         }

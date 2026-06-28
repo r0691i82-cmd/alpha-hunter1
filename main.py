@@ -1,61 +1,97 @@
-from ai.final_decision_engine import FinalDecisionEngine
-
-from notifications.telegram_sender import TelegramSender
-
 from pathlib import Path
 from datetime import datetime
-
 import shutil
+
+from ai.final_decision_engine import FinalDecisionEngine
+from notifications.telegram_sender import TelegramSender
 
 
 def main():
 
     print("=" * 80)
-    print("ALPHA HUNTER v3")
+    print("ALPHA HUNTER v3 INSTITUTIONAL PIPELINE")
     print("=" * 80)
 
     result = FinalDecisionEngine().run()
 
-    report = result["judge"]
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
-    reports = Path("reports")
+    reports_dir = Path("reports")
+    reports_dir.mkdir(exist_ok=True)
 
-    reports.mkdir(
-        exist_ok=True,
-    )
+    report_file = reports_dir / f"alpha_report_{timestamp}.md"
 
-    filename = (
-        reports
-        /
-        f"alpha_report_{datetime.now().strftime('%Y-%m-%d_%H-%M')}.md"
-    )
+    report = f"""
+# Alpha Hunter Institutional Report
 
-    filename.write_text(
+Generated : {datetime.now()}
+
+---
+
+# Analyst
+
+{result["analyst"]}
+
+---
+
+# Bear
+
+{result["bear"]}
+
+---
+
+# Bull
+
+{result["bull"]}
+
+---
+
+# Risk Manager
+
+{result["risk"]}
+
+---
+
+# Final Judge
+
+{result["judge"]}
+"""
+
+    report_file.write_text(
         report,
         encoding="utf-8",
     )
 
+    print()
+    print("Report Saved")
+    print(report_file)
+
     TelegramSender().send_markdown_file(
-        filename,
+        report_file,
     )
 
-    vault = Path(
-        "research/obsidian_daily"
-    )
+    vault = Path("research") / "obsidian_daily"
 
     vault.mkdir(
         parents=True,
         exist_ok=True,
     )
 
+    destination = vault / report_file.name
+
     shutil.copy(
-        filename,
-        vault / filename.name,
+        report_file,
+        destination,
     )
 
     print()
-    print("Pipeline Complete")
-    print(filename)
+    print("=" * 80)
+    print("ALPHA HUNTER COMPLETE")
+    print("=" * 80)
+    print(f"Report    : {report_file}")
+    print(f"Obsidian  : {destination}")
+    print("Telegram  : Complete")
+    print("=" * 80)
 
 
 if __name__ == "__main__":
