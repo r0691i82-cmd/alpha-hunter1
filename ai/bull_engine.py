@@ -1,13 +1,11 @@
 import os
+import json
 import google.generativeai as genai
-
-from ai.prompt_builder import InstitutionalPromptBuilder
 
 
 class BullEngine:
 
     def __init__(self):
-
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:
@@ -20,57 +18,45 @@ class BullEngine:
             "gemini-2.5-flash"
         )
 
-    def generate(self, analyst_report, bear_report):
+    def generate(self, context, analyst_report, bear_report):
 
         if self.model is None:
             return "GEMINI_API_KEY NOT FOUND"
+
+        context_text = json.dumps(
+            context,
+            indent=2,
+            ensure_ascii=False,
+            default=str,
+        )
 
         prompt = f"""
 You are the Chief Investment Strategist of a long-only global asset manager.
 
 Your job is to challenge the bear case.
 
-Find why the market can continue rising.
-
-Find liquidity support.
-
-Find ETF inflow support.
-
-Find macro tailwinds.
-
-Find positioning squeeze opportunities.
-
-Find COT-based bullish setups.
-
-Find technical continuation signals.
-
 Return:
 
-1 Bull Thesis
+1. Bull Thesis
+2. Why Bear Case May Be Wrong
+3. Liquidity Support
+4. ETF / COT Bullish Evidence
+5. Macro Tailwinds
+6. Upside Scenario
+7. Probability
+8. Final Bull Opinion
 
-2 Why Bear Case May Be Wrong
+Structured Data:
 
-3 Liquidity Support
+{context_text}
 
-4 ETF / COT Bullish Evidence
-
-5 Upside Scenario
-
-6 Probability
-
-7 Final Bull Opinion
-
-Analyst Report
+Analyst Report:
 
 {analyst_report}
 
-Bear Report
+Bear Report:
 
 {bear_report}
-
-Structured Data
-
-{InstitutionalPromptBuilder().build()}
 """
 
         response = self.model.generate_content(prompt)

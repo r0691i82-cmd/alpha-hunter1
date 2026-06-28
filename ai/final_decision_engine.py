@@ -1,3 +1,4 @@
+from ai.ai_context_builder import AIContextBuilder
 from ai.analyst_engine import AnalystEngine
 from ai.bear_engine import BearEngine
 from ai.bull_engine import BullEngine
@@ -8,33 +9,39 @@ from ai.judge_engine import JudgeEngine
 class FinalDecisionEngine:
 
     def __init__(self):
-
+        self.context_builder = AIContextBuilder()
         self.analyst = AnalystEngine()
         self.bear = BearEngine()
         self.bull = BullEngine()
         self.risk = RiskManagerEngine()
         self.judge = JudgeEngine()
 
-    def run(self):
+    def run(self, context=None):
+        if context is None:
+            context = self.context_builder.build()
 
-        analyst_report = self.analyst.generate()
+        analyst_report = self.analyst.generate(context)
 
         bear_report = self.bear.generate(
+            context,
             analyst_report,
         )
 
         bull_report = self.bull.generate(
+            context,
             analyst_report,
             bear_report,
         )
 
         risk_report = self.risk.generate(
+            context,
             analyst_report,
             bear_report,
             bull_report,
         )
 
         judge_report = self.judge.generate(
+            context,
             analyst_report,
             bear_report,
             bull_report,

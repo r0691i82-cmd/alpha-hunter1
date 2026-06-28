@@ -1,13 +1,11 @@
 import os
+import json
 import google.generativeai as genai
-
-from ai.prompt_builder import InstitutionalPromptBuilder
 
 
 class RiskManagerEngine:
 
     def __init__(self):
-
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:
@@ -20,78 +18,51 @@ class RiskManagerEngine:
             "gemini-2.5-flash"
         )
 
-    def generate(
-        self,
-        analyst_report,
-        bear_report,
-        bull_report,
-    ):
+    def generate(self, context, analyst_report, bear_report, bull_report):
 
         if self.model is None:
             return "GEMINI_API_KEY NOT FOUND"
 
+        context_text = json.dumps(
+            context,
+            indent=2,
+            ensure_ascii=False,
+            default=str,
+        )
+
         prompt = f"""
 You are the Chief Risk Manager of a global macro hedge fund.
 
-You are NOT bullish.
-
-You are NOT bearish.
-
-Your only responsibility is protecting capital.
-
-Evaluate:
-
-1. Liquidity Risk
-
-2. Carry Trade Risk
-
-3. Currency Risk
-
-4. Interest Rate Risk
-
-5. Credit Risk
-
-6. ETF Flow Risk
-
-7. COT Positioning Risk
-
-8. Technical Breakdown Risk
-
-9. Geopolitical Risk
-
-10. Black Swan Risk
+Your only job is capital protection.
 
 Return:
 
-Executive Summary
+1. Executive Summary
+2. Top Risks
+3. Carry Trade Risk
+4. Currency Risk
+5. Liquidity Risk
+6. Volatility Risk
+7. Credit Risk
+8. Risk Score 0~100
+9. Worst Case Scenario
+10. Portfolio Exposure Recommendation
 
-Top Risks
+Structured Data:
 
-Risk Score (0~100)
+{context_text}
 
-Probability
-
-Worst Case Scenario
-
-Capital Preservation Strategy
-
-Portfolio Exposure Recommendation
-
-Analyst Report
+Analyst Report:
 
 {analyst_report}
 
-Bear Report
+Bear Report:
 
 {bear_report}
 
-Bull Report
+Bull Report:
 
 {bull_report}
-
-Structured Data
-
-{InstitutionalPromptBuilder().build()}
 """
 
         response = self.model.generate_content(prompt)
