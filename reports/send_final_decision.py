@@ -16,6 +16,6 @@ text = latest.read_text(
     errors="ignore",
 )
 
-TelegramSender().send(text[:3900])
+TelegramSender().send_markdown_file(latest)
 
 print("Final Decision Report Sent")

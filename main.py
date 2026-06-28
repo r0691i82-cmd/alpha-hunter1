@@ -1,20 +1,62 @@
-from core.config_loader import load_settings, load_watchlist, load_indicators
-from core.logger import get_logger
+from ai.final_decision_engine import FinalDecisionEngine
+
+from notifications.telegram_sender import TelegramSender
+
+from pathlib import Path
+from datetime import datetime
+
+import shutil
 
 
-logger = get_logger("main")
+def main():
 
-settings = load_settings()
-watchlist = load_watchlist()
-indicators = load_indicators()
+    print("=" * 80)
+    print("ALPHA HUNTER v3")
+    print("=" * 80)
 
-print("=" * 60)
-print("Alpha Hunter v2.0.0 Foundation")
-print("=" * 60)
-print("Project:", settings["project"]["name"])
-print("Version:", settings["project"]["version"])
-print("Watchlist:", watchlist["watchlist"])
-print("EMA:", indicators["ema_periods"])
-print("=" * 60)
+    result = FinalDecisionEngine().run()
 
-logger.info("Alpha Hunter Foundation Boot OK")
+    report = result["judge"]
+
+    reports = Path("reports")
+
+    reports.mkdir(
+        exist_ok=True,
+    )
+
+    filename = (
+        reports
+        /
+        f"alpha_report_{datetime.now().strftime('%Y-%m-%d_%H-%M')}.md"
+    )
+
+    filename.write_text(
+        report,
+        encoding="utf-8",
+    )
+
+    TelegramSender().send_markdown_file(
+        filename,
+    )
+
+    vault = Path(
+        "research/obsidian_daily"
+    )
+
+    vault.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    shutil.copy(
+        filename,
+        vault / filename.name,
+    )
+
+    print()
+    print("Pipeline Complete")
+    print(filename)
+
+
+if __name__ == "__main__":
+    main()
