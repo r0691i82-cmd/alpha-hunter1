@@ -6,6 +6,7 @@ import google.generativeai as genai
 class BullEngine:
 
     def __init__(self):
+
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:
@@ -42,9 +43,10 @@ Return:
 3. Liquidity Support
 4. ETF / COT Bullish Evidence
 5. Macro Tailwinds
-6. Upside Scenario
-7. Probability
-8. Final Bull Opinion
+6. Technical Continuation Signals
+7. Upside Scenario
+8. Probability
+9. Final Bull Opinion
 
 Structured Data:
 

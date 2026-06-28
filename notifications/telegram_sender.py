@@ -26,7 +26,6 @@ class TelegramSender:
         }
 
         try:
-
             response = requests.post(
                 url,
                 json=payload,
@@ -35,7 +34,6 @@ class TelegramSender:
 
             if response.status_code == 200:
                 print("Telegram Send Complete")
-
             else:
                 print(response.text)
 
@@ -54,7 +52,6 @@ class TelegramSender:
             encoding="utf-8",
             errors="ignore",
         ) as f:
-
             text = f.read()
 
         chunks = [
@@ -65,7 +62,6 @@ class TelegramSender:
         print(f"Sending {len(chunks)} Telegram message(s)...")
 
         for index, chunk in enumerate(chunks, start=1):
-
             self.send(chunk)
 
             if index != len(chunks):

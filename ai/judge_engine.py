@@ -6,6 +6,7 @@ import google.generativeai as genai
 class JudgeEngine:
 
     def __init__(self):
+
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:

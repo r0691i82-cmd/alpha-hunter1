@@ -7,6 +7,7 @@ sys.path.append(str(ROOT))
 
 
 def export_report(report_file):
+
     target_dir = Path("research") / "obsidian_daily"
 
     target_dir.mkdir(
@@ -27,6 +28,7 @@ def export_report(report_file):
 
 
 def main():
+
     reports = sorted(
         (Path("research") / "reports").glob("alpha_report_*.md")
     )

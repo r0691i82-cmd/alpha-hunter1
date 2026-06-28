@@ -6,6 +6,7 @@ import google.generativeai as genai
 class BearEngine:
 
     def __init__(self):
+
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:
@@ -33,19 +34,21 @@ class BearEngine:
         prompt = f"""
 You are the Chief Risk Officer of a global macro hedge fund.
 
-Your job is to challenge the analyst.
+Your job is to attack the analyst's thesis.
 
 Return:
 
-1. Biggest Mistakes
+1. Biggest Analytical Mistakes
 2. Hidden Assumptions
 3. Missing Risks
 4. Liquidity Risks
 5. ETF Flow Contradictions
 6. COT Contradictions
-7. Bear Scenario
-8. Probability
-9. Final Bear Opinion
+7. Macro Contradictions
+8. Technical Breakdown Risks
+9. Bear Scenario
+10. Probability
+11. Final Bear Opinion
 
 Structured Data:
 

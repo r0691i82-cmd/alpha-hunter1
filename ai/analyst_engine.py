@@ -6,6 +6,7 @@ import google.generativeai as genai
 class AnalystEngine:
 
     def __init__(self):
+
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:
@@ -39,12 +40,14 @@ Return:
 
 1. Executive Summary
 2. Global Money Flow
-3. ETF Rotation
-4. COT Analysis
-5. Macro Analysis
-6. Technical View
-7. Primary Scenario
-8. Confidence Score 0~100
+3. Market Regime
+4. ETF Rotation
+5. COT Positioning
+6. Macro Risk
+7. Technical View
+8. Primary Scenario
+9. Alternative Scenario
+10. Confidence Score 0~100
 
 Structured Data:
 

@@ -1,7 +1,6 @@
 from pathlib import Path
 from datetime import datetime
 
-from ai.ai_context_builder import AIContextBuilder
 from ai.final_decision_engine import FinalDecisionEngine
 from notifications.telegram_sender import TelegramSender
 from reports.obsidian_export_v2 import export_report
@@ -13,11 +12,7 @@ def main():
     print("ALPHA HUNTER v3 INSTITUTIONAL PIPELINE")
     print("=" * 80)
 
-    context = AIContextBuilder().build()
-
-    result = FinalDecisionEngine().run(
-        context,
-    )
+    result = FinalDecisionEngine().run()
 
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
 

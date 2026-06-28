@@ -6,6 +6,7 @@ import google.generativeai as genai
 class RiskManagerEngine:
 
     def __init__(self):
+
         api_key = os.getenv("GEMINI_API_KEY")
 
         if not api_key:
@@ -47,6 +48,8 @@ Return:
 8. Risk Score 0~100
 9. Worst Case Scenario
 10. Portfolio Exposure Recommendation
+11. Position Sizing Guidance
+12. Stop Loss / Risk Control
 
 Structured Data:
 
