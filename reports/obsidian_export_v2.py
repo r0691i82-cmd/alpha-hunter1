@@ -1,17 +1,12 @@
 import sys
 import shutil
 from pathlib import Path
-from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT))
 
 
 def export_report(report_file):
-    """
-    main.py에서 생성한 리포트를 Obsidian Vault로 복사
-    """
-
     target_dir = Path("research") / "obsidian_daily"
 
     target_dir.mkdir(
@@ -32,12 +27,8 @@ def export_report(report_file):
 
 
 def main():
-    """
-    단독 실행 시 reports 폴더의 최신 Alpha Report를 Obsidian으로 복사
-    """
-
     reports = sorted(
-        Path("reports").glob("alpha_report_*.md")
+        (Path("research") / "reports").glob("alpha_report_*.md")
     )
 
     if not reports:

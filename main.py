@@ -16,8 +16,8 @@ def main():
 
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
 
-    reports_dir = Path("reports")
-    reports_dir.mkdir(exist_ok=True)
+    reports_dir = Path("research") / "reports"
+    reports_dir.mkdir(parents=True, exist_ok=True)
 
     report_file = reports_dir / f"alpha_report_{timestamp}.md"
 
