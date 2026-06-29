@@ -26,6 +26,7 @@ class AIContextBuilder:
             "cot_positioning": self._df_to_records(cot),
             "macro_snapshot": self._df_to_records(macro),
             "latest_reports": self._load_latest_reports(),
+            "market_memory": self._load_market_memory(),
             "watchlist": [
                 "SPY",
                 "QQQ",
@@ -81,3 +82,27 @@ class AIContextBuilder:
             })
 
         return items
+
+    def _load_market_memory(self):
+
+        reports_dir = Path("research") / "reports"
+
+        if not reports_dir.exists():
+            return []
+
+        reports = sorted(
+            reports_dir.glob("alpha_report_*.md")
+        )
+
+        memory = []
+
+        for report in reports[-7:]:
+            memory.append({
+                "date": report.stem,
+                "summary": report.read_text(
+                    encoding="utf-8",
+                    errors="ignore",
+                )[:1500],
+            })
+
+        return memory
