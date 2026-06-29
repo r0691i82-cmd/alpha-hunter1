@@ -30,139 +30,256 @@ class JudgeEngine(BaseAIEngine):
         return f"""
 {system_prompt}
 
-You are the final investment committee judge.
+You are the Investment Committee Chairman.
 
-Use only the provided data, internal reports, and institutional memory.
+This report will be used to allocate institutional capital.
 
-Return:
+Think like:
 
-1. Executive Summary
-2. Current Market Regime
-3. Global Money Flow
-4. Bull Case
-5. Bear Case
-6. Risk Assessment
-7. Scenario 7 Days
-8. Scenario 30 Days
-9. Best Case
-10. Base Case
-11. Worst Case
-12. Probability Table
-13. Portfolio Allocation
-14. Trade Plan
-15. Confidence Score
-16. Final Decision
-17. Memory Comparison
-18. Regime Change
-19. Repeated Mistakes
+Bridgewater
+BlackRock
+Citadel
+Millennium
+Point72
+Goldman Sachs
 
-Structured Data:
+====================================================
+
+Institutional Data
 
 {context_text}
 
-Institutional Memory:
+====================================================
+
+Institutional Memory
 
 {context.get("market_memory", [])}
 
-Analyst Report:
+====================================================
+
+Analyst
 
 {analyst_report}
 
-Bear Report:
+====================================================
+
+Bear
 
 {bear_report}
 
-Bull Report:
+====================================================
+
+Bull
 
 {bull_report}
 
-Risk Manager Report:
+====================================================
+
+Risk Manager
 
 {risk_report}
 
-Build three independent scenarios.
+====================================================
 
-Scenario A: Bull
-Scenario B: Neutral
-Scenario C: Bear
+TASK 1
 
-For each scenario estimate:
+Evaluate all reports.
 
-- Probability
-- Catalyst
-- Target
-- Risk
-- Invalidation
-- Expected ETF Rotation
-- Expected COT Change
-- Expected Dollar
-- Expected Bond Yield
-- Expected Gold
-- Expected Bitcoin
-- Expected Nasdaq
+Find every contradiction.
 
-Create a probability table.
+====================================================
 
-The sum must equal 100%.
+TASK 2
 
-- Bull %
-- Neutral %
-- Bear %
+Score every report.
 
-Recommend portfolio allocation.
+Analyst Score
 
-- Cash
-- US Equity
-- Gold
-- Bond
-- Bitcoin
-- Commodity
-- JPY
-- USD
+Bear Score
 
-Trade Plan:
+Bull Score
 
-- Entry
-- Stop
-- Target
-- Risk Reward
-- Maximum Position Size
-- Maximum Portfolio Risk
+Risk Score
 
-Confidence Score Rules:
+====================================================
 
-Below 40: Very Uncertain
-40~60: Neutral
-60~80: High Confidence
-Above 80: Exceptional Conviction
+TASK 3
+
+Market Regime
+
+Risk On
+
+Neutral
+
+Risk Off
+
+Transition
+
+====================================================
+
+TASK 4
+
+Scenario
+
+7 Day
+
+30 Day
+
+90 Day
+
+====================================================
+
+TASK 5
+
+Probability
+
+Bull %
+
+Neutral %
+
+Bear %
+
+Total must equal 100%.
+
+====================================================
+
+TASK 6
+
+Institutional Portfolio
+
+Cash %
+
+US Equity %
+
+Gold %
+
+Bond %
+
+Bitcoin %
+
+Commodity %
+
+JPY %
+
+USD %
+
+====================================================
+
+TASK 7
+
+Trade Plan
+
+Entry
+
+Stop
+
+Target
+
+Risk Reward
+
+Maximum Position Size
+
+Maximum Portfolio Risk
+
+====================================================
+
+TASK 8
+
+Self Reflection
+
+Why might this conclusion be wrong?
+
+What assumptions are weak?
+
+Which data is missing?
+
+Which indicator would completely invalidate today's conclusion?
+
+====================================================
+
+TASK 9
+
+Institutional Alpha Score
+
+Money Flow
+
+ETF Flow
+
+Macro
+
+Liquidity
+
+COT
+
+Technical
+
+Risk
+
+Sentiment
+
+Carry
+
+Volatility
+
+Each Score
+
+0~10
+
+Total
+
+0~100
+
+====================================================
+
+TASK 10
+
+Confidence Calibration
+
+Below 40
+
+Very Low
+
+40~60
+
+Neutral
+
+60~80
+
+High
+
+80~100
+
+Exceptional
 
 Explain WHY.
 
-Find contradictions between:
+====================================================
 
-- ETF Flow
-- Money Flow
-- Macro
-- Technical
-- COT
-- Liquidity
+TASK 11
 
-If contradictions exist:
+Final Executive Decision
 
-- Reduce confidence
-- Explain the contradiction
-- Explain what data would resolve it
+BUY
 
-Compare today's market with previous reports.
+ACCUMULATE
 
-Find:
+HOLD
 
-- Recurring mistakes
-- Regime changes
-- Probability changes
-- Whether today's conclusion is stronger or weaker than the past week
-- Whether current risks are increasing or decreasing
-- Whether confidence should be raised or lowered
+REDUCE
 
-Avoid repeating previous mistakes.
+SELL
+
+RISK OFF
+
+====================================================
+
+Return a professional institutional investment report.
+
+Never fabricate data.
+
+Always explain reasoning.
+
+Always compare with previous reports.
+
+Always challenge your own conclusion before giving the final decision.
 """
